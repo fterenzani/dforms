@@ -51,9 +51,9 @@ class DForms_Widgets_SelectMultiple extends DForms_Widgets_Select
         /**
          * Protect against null values.
          */
-        if (is_null($value)) {
-            $value = '';
-        }
+//        if (is_null($value)) {
+//            $value = '';
+//        }
         
         /**
          * Finalize widget attributes.
