@@ -3,7 +3,7 @@
 /**
  * Import DForm.
  */
-require_once dirname(__FILE__) . '/src/DForms/import.php';
+require_once dirname(__FILE__) . '/../src/DForms/import.php';
 
 /**
  * Define a simple form.
