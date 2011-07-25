@@ -66,8 +66,9 @@ class DForms_Fields_CharField extends DForms_Fields_Field
         if ($this->isEmptyValue($value)) {
             $value = '';
         }
+
         
-        $value_length = strlen($value_length);
+        $value_length = strlen($value);
         
         if (!is_null($this->max_length) && $value_length > $this->max_length) {
             throw new DForms_Errors_ValidationError(
