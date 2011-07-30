@@ -45,7 +45,10 @@ class DForms_Fields_ChoiceField extends DForms_Fields_Field
      *
      * @param mixed   $label               The label to display for the field. 
      *                                     Pass null for the class default.
-     * @param mixed   $help_text           The help text to display for the  
+     *                                     If its type is array then it is used
+     *                                     to override the others arguments
+     *                                     allowing pesudo keyword arguments.
+     * @param mixed   $help_text           The help text to display for the
      *                                     field. Pass null for the class
      *                                     default.
      * @param mixed   $initial             The initial value to use for the 
@@ -67,6 +70,19 @@ class DForms_Fields_ChoiceField extends DForms_Fields_Field
         $initial=null, $required=true, $widget=null, $error_messages=null, 
         $show_hidden_initial=false
     ) {
+
+
+        /**
+         * Allow pseudo keyword arguments
+         */
+        if (is_array($label)) {
+            $args = $label;
+            $label = null;
+
+            extract($args);
+
+        }
+        
         parent::__construct(
             $label, 
             $help_text, 
@@ -80,7 +96,7 @@ class DForms_Fields_ChoiceField extends DForms_Fields_Field
         if (is_null($choices)) {
             $choices = array();
         }
-        $this->choices = $choices;
+        $this->_choices = $choices;
     }
     
     /**
@@ -169,7 +185,7 @@ class DForms_Fields_ChoiceField extends DForms_Fields_Field
      */
     protected function validValue($value)
     {
-        $choices = $this->choices;
+        $choices = $this->_choices;
         foreach ($choices as $k => $v) {
             if (is_array($v)) {
                 foreach ($v as $k2 => $v2) {

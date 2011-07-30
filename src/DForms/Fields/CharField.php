@@ -39,6 +39,18 @@ class DForms_Fields_CharField extends DForms_Fields_Field
         $required=true, $widget=null, $error_messages=null, 
         $show_hidden_initial=false)
     {
+
+        /**
+         * Allow pseudo keyword arguments
+         */
+        if (is_array($label)) {
+            $args = $label;
+            $label = null;
+
+            extract($args);
+
+        }
+        
         $this->max_length = $max_length;
         $this->min_length = $min_length;
         

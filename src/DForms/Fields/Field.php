@@ -189,6 +189,9 @@ abstract class DForms_Fields_Field
      *
      * @param mixed   $label               The label to display for the field. 
      *                                     Pass null for the class default.
+     *                                     If its type is array then it is used
+     *                                     to override the others arguments
+     *                                     allowing pesudo keyword arguments.
      * @param mixed   $help_text           The help text to display for the  
      *                                     field. Pass null for the class
      *                                     default.
@@ -211,6 +214,18 @@ abstract class DForms_Fields_Field
         $required=true, $widget=null, $error_messages=null, 
         $show_hidden_initial=false
     ) {
+
+        /**
+         * Allow pseudo keyword arguments
+         */
+        if (is_array($label)) {
+            $args = $label;
+            $label = null;
+
+            extract($args);
+
+        }
+
         /**
          * Initialize label.
          */
@@ -428,4 +443,25 @@ abstract class DForms_Fields_Field
             'invalid' => 'Enter a valid value.'
         );
     }
+
+    /**
+     * Initialize a field by name
+     *
+     * @param string $field
+     * @param array $args
+     * @return DForms_Fields_Field
+     */
+    public static function factory($field, array $args = array()) {
+        
+        $class = 'DForms_Fields_' . ucfirst($field) . 'Field';
+
+        if (class_exists($class)) {
+            return new $class($args);
+        }
+
+        throw new InvalidArgumentException($field
+                . ' isn\'t a valid Field name');
+        
+    }
+
 }

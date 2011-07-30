@@ -75,7 +75,7 @@ class DForms_Fields_BoundField
         $this->html_initial_id = $form->addInitialPrefix($this->auto_id);
         
         if (is_null($field->label)) {
-            $this->label = $name;
+            $this->label = ucfirst(str_replace('_', ' ', $name));
         } else {
             $this->label = $field->label;
         }

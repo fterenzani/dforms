@@ -278,7 +278,8 @@ implements ArrayAccess, Iterator, Countable
         /**
          * Get the declared and inherited fields.
          */
-        $this->base_fields = $this->getDeclaredFields();
+        $this->base_fields = $this->initializeFields(
+                $this->getDeclaredFields());
         
         /**
          * Copy base fields for this instance.
@@ -578,6 +579,42 @@ implements ArrayAccess, Iterator, Countable
          * Return the merged fields.
          */
         return $fields;
+    }
+
+    /**
+     * Initialize the field defined with the concise syntax
+     *
+     * @param array $fields
+     * @return array
+     */
+    function initializeFields(array $fields) {
+
+        foreach ($fields as $name => $field) {
+            
+            if ($field instanceof DForms_Fields_Field) {
+                continue;
+            }
+            
+            if (is_string($field)) {
+                $field = array($field);
+            }
+
+            /**
+             * Set the dafault field name if not given
+             */
+            if (!isset($field[0])) {
+                array_unshift($field, 'char');
+                
+            }
+
+            $fields[$name] = DForms_Fields_Field::factory(
+                    $field[0],
+                    array_slice($field, 1));
+
+        }
+
+        return $fields;
+
     }
     
     /**
